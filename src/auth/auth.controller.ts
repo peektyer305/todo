@@ -1,7 +1,7 @@
 import { AuthService } from './auth.service';
-import { Body, Controller, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res } from '@nestjs/common';
 import { AuthDto } from './dto/auth.dto';
-import { Msg } from './interfaces/auth.interface';
+import { Csrf, Msg } from './interfaces/auth.interface';
 import { Request, Response } from 'express';
 
 @Controller('auth')
@@ -46,5 +46,10 @@ export class AuthController {
         return{
             message: "ok",
         }
+    }
+
+    @Get("/csrf")
+    getCsrfToken(@Req() req: Request): Csrf{
+        return {csrfToken: req.csrfToken()}
     }
 }
