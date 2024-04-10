@@ -1,4 +1,4 @@
-import { Controller, Req, UseGuards, Get, ParseIntPipe, Param, Post, Body, Patch } from '@nestjs/common';
+import { Controller, Req, UseGuards, Get, ParseIntPipe, Param, Post, Body, Patch, HttpCode, HttpStatus, Delete } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { TodoService } from './todo.service';
 import { Request } from 'express';
@@ -31,4 +31,10 @@ export class TodoController {
         return this.todo.updateTaskById(req.user.id,taskId,dto);
     }
 
+    //deleteなのでステータスをカスタマイズ
+    @HttpCode(HttpStatus.NO_CONTENT)
+    @Delete(":id")
+    deleteTaskById(@Req() req: Request, @Param("id",ParseIntPipe) taskId: number,): Promise<void>{
+        return this.todo.deleteTaskById(req.user.id, taskId);
+    }
 }
